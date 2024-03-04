@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Info</title>
+</head>
+<body>
+
+<h1>Informasi IP</h1>
+<p id="ipv4"></p>
+<p id="ipv6"></p>
+
+<script>
+  // Fungsi untuk memuat informasi IP dari ipinfo.io
+  function loadIPInfo(version) {
+    fetch(`https://ipinfo.io?token=f11d9dcd855df5&ip=${version}`)
+      .then(response => response.json())
+      .then(data => {
+        // Menampilkan informasi IP pada elemen HTML yang sesuai
+        const ipAddress = data.ip || 'Tidak ditemukan';
+        const hostname = data.hostname || 'Tidak ditemukan';
+        const city = data.city || 'Tidak ditemukan';
+
+        const ipElement = document.getElementById(`ip${version}`);
+        ipElement.innerHTML = `<strong>IP ${version}:</strong> ${ipAddress}, Hostname: ${hostname}, Kota: ${city}`;
+      })
+      .catch(error => console.error('Error fetching IP info:', error));
+  }
+
+  // Memanggil fungsi untuk memuat informasi IP versi 4 dan versi 6
+  loadIPInfo('v4');
+  loadIPInfo('v6');
+</script>
+
+</body>
+</html>
